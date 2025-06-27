@@ -8,8 +8,8 @@ public class LConstants {
         ThreeWheelConstants.forwardTicksToInches = 0.0777;
         ThreeWheelConstants.strafeTicksToInches = 0.0025;
         ThreeWheelConstants.turnTicksToInches = 0.0045;
-        ThreeWheelConstants.leftY = -6;
-        ThreeWheelConstants.rightY = 6;
+        ThreeWheelConstants.leftY = 6;
+        ThreeWheelConstants.rightY = -6;
         ThreeWheelConstants.strafeX = -2.16535;
         ThreeWheelConstants.leftEncoder_HardwareMapName = "FLmotor";
 
@@ -18,9 +18,7 @@ public class LConstants {
         ThreeWheelConstants.leftEncoderDirection = Encoder.REVERSE;
         ThreeWheelConstants.rightEncoderDirection = Encoder.FORWARD;
         ThreeWheelConstants.strafeEncoderDirection = Encoder.FORWARD;
-    }// right porta :2 back left
-// strafe porta :1 front right
-// left porta :0  front left
+    }
 }
 
 
