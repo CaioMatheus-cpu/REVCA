@@ -1,17 +1,9 @@
-package OpMode;
 
-
-
-import com.pedropathing.follower.Follower;
-import com.pedropathing.util.Constants;
+package OpModes.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-
-import pedroPathing.constants.FConstants;
-import pedroPathing.constants.LConstants;
-
 
 @TeleOp(name = "Odometry Position Finder", group = "Calibration")
 public class OdometryPositionFinder extends LinearOpMode {
@@ -19,12 +11,10 @@ public class OdometryPositionFinder extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
         // Configura os encoders (substitua pelos nomes corretos do seu HardwareMap)
         leftEncoder = hardwareMap.get(DcMotorEx.class, "FLmotor"); // Encoder esquerdo (roda vertical esquerda)
         rightEncoder = hardwareMap.get(DcMotorEx.class, "BLmotor"); // Encoder direito (roda vertical direita)
         strafeEncoder = hardwareMap.get(DcMotorEx.class, "FRmotor"); // Encoder horizontal (roda lateral)
-        Constants.setConstants(FConstants.class, LConstants.class);
 
         // Reseta os encoders
         leftEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

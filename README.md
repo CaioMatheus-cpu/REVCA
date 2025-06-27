@@ -1,4 +1,12 @@
-git ## Welcome to the Offical Pedro Pathing Quickstart!  
+# Welcome
+Welcome to the NextFTC Quickstart! It has NextFTC & PedroPathing integration built in.
 
-Follow the steps on our [website](https://pedropathing.com/) to tune and setup!  
-Feel Free to reach out on the [Offical Pedro Pathing Discord Server](https://discord.gg/2GfC4qBP5s)!
+(For PedroPathing, use the `nextftc-and-pedro` branch).
+
+---
+
+Check out the NextFTC Docs: <https://docs.rowanmcalpin.com/>  
+Check out the PedroPathing Docs: <https://pedropathing.com/>  
+
+Join the NextFTC Discord: <https://discord.gg/PjP9Ze6fkX>  
+Join the PedroPathing Discord: <https://discord.gg/2GfC4qBP5s>  
