@@ -3,7 +3,7 @@ package pedroPathing.constants;
 import com.pedropathing.localization.*;
 import com.pedropathing.localization.constants.*;
 
-public class LConstants {
+public class    LConstants {
     static {
         ThreeWheelConstants.forwardTicksToInches = 0.0777;
         ThreeWheelConstants.strafeTicksToInches = 0.0025;

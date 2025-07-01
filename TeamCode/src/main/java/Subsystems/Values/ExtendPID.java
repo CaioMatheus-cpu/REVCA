@@ -1,8 +1,7 @@
 package Subsystems.Values;
 
 public class ExtendPID {
-    public static int target = 0;
-    public static int tollerance = 50;
+    public static int tollerance = 60;
     public static double p = 0.05;
     public static double i = 0.0001;
     public static double d = 0.001;

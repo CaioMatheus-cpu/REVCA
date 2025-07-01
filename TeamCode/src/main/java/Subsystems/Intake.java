@@ -42,6 +42,8 @@ public class Intake extends Subsystem {
     public void initialize() {
         Garra = OpModeData.INSTANCE.getHardwareMap().get(Servo.class, garra);
         Angulo= OpModeData.INSTANCE.getHardwareMap().get(Servo.class, angulo);
+        Garra.setDirection(Servo.Direction.FORWARD);
+        Angulo.setDirection(Servo.Direction.FORWARD);
     }
 
 

@@ -5,20 +5,28 @@ package Subsystems;
 
 import static com.rowanmcalpin.nextftc.ftc.OpModeData.telemetry;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
+import static Subsystems.Values.LiftPID.target;
+
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
+import com.rowanmcalpin.nextftc.core.command.groups.ParallelGroup;
 import com.rowanmcalpin.nextftc.core.command.utility.InstantCommand;
 import com.rowanmcalpin.nextftc.core.control.controllers.PIDFController;
 import com.rowanmcalpin.nextftc.core.control.controllers.feedforward.StaticFeedforward;
+import com.rowanmcalpin.nextftc.ftc.OpModeData;
+import com.rowanmcalpin.nextftc.ftc.hardware.controllables.HoldPosition;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.RunToPosition;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.SetPower;
 
+import Subsystems.Values.ExtendPID;
 import Subsystems.Values.LiftPID;
 import Subsystems.Values.RConstants;
 
 
-public class Lift extends Subsystem {
+    public class Lift extends Subsystem {
 
     public static final Lift INSTANCE = new Lift();
 
@@ -30,25 +38,44 @@ public class Lift extends Subsystem {
     public Command resetZero() {
         return new InstantCommand(() -> { line_motor_stage2.resetEncoder(); });
     }
+    public Command toTarget() {
+        return new ParallelGroup(
+                new RunToPosition(line_motor_stage2,
+                        target,
+                        l_liftController)
+        );
+
+
+    }
+
     public Command toLow() {
         return new RunToPosition(line_motor_stage2,
-                RConstants.GROUND_arm,
+                RConstants.minPosition_arm,
                 l_liftController);
      }
 
     public Command toHigh() {
         return new RunToPosition(line_motor_stage2,
-                RConstants.HIGHBASKET_arm,
+                RConstants.maxPosition_arm,
                 l_liftController);
     }
+
+
+
+    public Command getDefaltCommand() {
+        return new HoldPosition(line_motor_stage2, l_liftController);
+    }
+
     public Command powerControl(double power) {
         return new SetPower(line_motor_stage2,
                 power);
     }
 
-    @Override
-    public void initialize() {
+    public void initialize(){
         line_motor_stage2 = new MotorEx(braco);
+        line_motor_stage2.resetEncoder();
+        line_motor_stage2.setDirection(DcMotorSimple.Direction.FORWARD);
+        l_liftController.setSetPointTolerance(LiftPID.tollerancel);
     }
 
 }

@@ -74,25 +74,42 @@ public class TeleOpRev extends NextFTCOpMode {
     @Override
     public void onStartButtonPressed() {
         driverControlled = new MecanumDriverControlled(motors, gamepadManager.getGamepad1());
-
         driverControlled.invoke();
 
-        gamepadManager.getGamepad2().getDpadDown().setPressedCommand(Lift.INSTANCE::toLow);
-        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(Lift.INSTANCE::toHigh);
-        gamepadManager.getGamepad2().getX().setPressedCommand(Extend.INSTANCE::highbasket);
-        gamepadManager.getGamepad2().getY().setPressedCommand(Extend.INSTANCE::retract);
+        //------ RESET ENCODERS ------
+        Lift.INSTANCE.resetZero().invoke();
+        Extend.INSTANCE.resetZero().invoke();
+        Lift.INSTANCE.getDefaltCommand().invoke();
+        Extend.INSTANCE.getDefaltCommand().invoke();
+        //------ Pose Maxima Braco ------
+        gamepadManager.getGamepad2().getDpadDown().setReleasedCommand(
+                () -> Lift.INSTANCE.toHigh()
+        );
+        //------ Pose Minima Braco ------
+        gamepadManager.getGamepad2().getDpadDown().setReleasedCommand(
+                () -> Lift.INSTANCE.toLow()
+        );
+        //------ Pose Maxima Linear ------
+        gamepadManager.getGamepad2().getDpadLeft().setReleasedCommand(
+                () -> Extend.INSTANCE.toHigh()
+        );
+        //------ Pose Minima Linear ------
+        gamepadManager.getGamepad2().getDpadRight().setReleasedCommand(
+                () -> Extend.INSTANCE.toLow()
+        );
 
 
 
         gamepadManager.getGamepad2().getRightTrigger().setPressedCommand(
                 value -> new SequentialGroup(
+                        Intake.INSTANCE.open(),
+                        new Delay(2),
                         Lift.INSTANCE.toHigh(),
-                        Extend.INSTANCE.highbasket(),
-                        Extend.INSTANCE.retract(),
-                        Lift.INSTANCE.toLow()
-
+                        new Delay(2),
+                        Extend.INSTANCE.toHigh()
                 )
         );
+
 
 
 
