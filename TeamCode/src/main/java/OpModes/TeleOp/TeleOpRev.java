@@ -100,15 +100,20 @@ public class TeleOpRev extends NextFTCOpMode {
 
 
 
+
         gamepadManager.getGamepad2().getRightTrigger().setPressedCommand(
                 value -> new SequentialGroup(
                         Intake.INSTANCE.open(),
-                        new Delay(2),
+                        new Delay(0.2),
                         Lift.INSTANCE.toHigh(),
-                        new Delay(2),
-                        Extend.INSTANCE.toHigh()
+                        new Delay(0.2),
+                        Extend.INSTANCE.toHigh(),
+                        new Delay(0.2),
+                        Intake.INSTANCE.close()
                 )
         );
+
+
 
 
 
