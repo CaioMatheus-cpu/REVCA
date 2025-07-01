@@ -14,25 +14,25 @@ public class Intake extends Subsystem {
 
     public String garra = "garra";
     public String angulo = "angulo";
-    public Command open () {
+    public Command vamoquererabrir(){
         return new ServoToPosition(Garra,
                 1,
                 this);
     }
 
-    public Command close () {
+    public Command vamoquererfechar () {
         return new ServoToPosition(Garra,
                 -1,
                 this);
     }
 
-    public Command open_Ang() {
+    public Command vamoquererangular() {
         return new ServoToPosition(Angulo,
                 1,
                 this);
     }
 
-    public Command close_Ang() {
+    public Command vamoquererangularfechar() {
         return new ServoToPosition(Angulo,
                 -1,
                 this);

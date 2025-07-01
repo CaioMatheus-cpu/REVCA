@@ -45,13 +45,13 @@ public class Extend extends Subsystem {
                         e_controller)
         );
     }
-    public Command toHigh() {
+    public Command vamoquerersubirne() {
         return new RunToPosition(line_motor_stage1,
             RConstants.maxPosition,
                 e_controller);
 
     }
-    public Command toLow() {
+    public Command vamoquererdescer() {
         return new RunToPosition(line_motor_stage1,
                     RConstants.minPosition,
                 e_controller);
@@ -60,7 +60,7 @@ public class Extend extends Subsystem {
 
 
 
-    public Command powerControl1(double power) {
+    public Command vamoquererfuncionar(double power) {
         return new SetPower(line_motor_stage1,
                 power);
     }

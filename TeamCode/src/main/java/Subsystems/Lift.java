@@ -48,13 +48,13 @@ import Subsystems.Values.RConstants;
 
     }
 
-    public Command toLow() {
+    public Command vamoquererdescer() {
         return new RunToPosition(line_motor_stage2,
                 RConstants.minPosition_arm,
                 l_liftController);
      }
 
-    public Command toHigh() {
+    public Command vamoquerersubir() {
         return new RunToPosition(line_motor_stage2,
                 RConstants.maxPosition_arm,
                 l_liftController);

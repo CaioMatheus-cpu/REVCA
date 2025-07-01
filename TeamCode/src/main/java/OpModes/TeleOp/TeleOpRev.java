@@ -16,6 +16,7 @@ import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import Subsystems.Intake;
 import Subsystems.Extend;
 import Subsystems.Lift;
+import Subsystems.Outtake;
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
@@ -29,7 +30,8 @@ public class TeleOpRev extends NextFTCOpMode {
         super(
                 Lift.INSTANCE,
                 Extend.INSTANCE,
-                Intake.INSTANCE);
+                Intake.INSTANCE,
+                Outtake.INSTANCE);
     }
 
     public MotorEx frontLeftMotor, backRightMotor, frontRightMotor, backLeftMotor;
@@ -83,33 +85,40 @@ public class TeleOpRev extends NextFTCOpMode {
         Extend.INSTANCE.getDefaltCommand().invoke();
         //------ Pose Maxima Braco ------
         gamepadManager.getGamepad2().getDpadDown().setReleasedCommand(
-                () -> Lift.INSTANCE.toHigh()
+                () -> Lift.INSTANCE.vamoquerersubir()
         );
         //------ Pose Minima Braco ------
         gamepadManager.getGamepad2().getDpadDown().setReleasedCommand(
-                () -> Lift.INSTANCE.toLow()
+                () -> Lift.INSTANCE.vamoquererdescer()
         );
         //------ Pose Maxima Linear ------
         gamepadManager.getGamepad2().getDpadLeft().setReleasedCommand(
-                () -> Extend.INSTANCE.toHigh()
+                () -> Extend.INSTANCE.vamoquerersubirne()
         );
         //------ Pose Minima Linear ------
         gamepadManager.getGamepad2().getDpadRight().setReleasedCommand(
-                () -> Extend.INSTANCE.toLow()
+                () -> Extend.INSTANCE.vamoquererdescer()
         );
+        gamepadManager.getGamepad2().getRightBumper().setReleasedCommand(
+                () -> Outtake.INSTANCE.vamoquerersependurar()
+        );
+        gamepadManager.getGamepad2().getRightBumper().setReleasedCommand(
+                () -> Outtake.INSTANCE.vamoquererparar()
+        );
+
 
 
 
 
         gamepadManager.getGamepad2().getRightTrigger().setPressedCommand(
                 value -> new SequentialGroup(
-                        Intake.INSTANCE.open(),
+                        Intake.INSTANCE.vamoquererabrir(),
                         new Delay(0.2),
-                        Lift.INSTANCE.toHigh(),
+                        Lift.INSTANCE.vamoquerersubir(),
                         new Delay(0.2),
-                        Extend.INSTANCE.toHigh(),
+                        Extend.INSTANCE.vamoquerersubirne(),
                         new Delay(0.2),
-                        Intake.INSTANCE.close()
+                        Intake.INSTANCE.vamoquererfechar()
                 )
         );
 
