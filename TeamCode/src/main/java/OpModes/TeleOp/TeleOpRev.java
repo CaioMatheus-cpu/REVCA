@@ -6,12 +6,15 @@ import com.pedropathing.localization.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.rowanmcalpin.nextftc.core.Subsystem;
+import com.rowanmcalpin.nextftc.core.command.CommandManager;
 import com.rowanmcalpin.nextftc.core.command.groups.ParallelGroup;
 import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
 import com.rowanmcalpin.nextftc.core.command.utility.delays.Delay;
 import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
+import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.ftc.driving.MecanumDriverControlled;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
+import com.rowanmcalpin.nextftc.pedro.DriverControlled;
 
 import Subsystems.Intake;
 import Subsystems.Extend;
@@ -41,10 +44,6 @@ public class TeleOpRev extends NextFTCOpMode {
     public String BRmotor = "BRmotor";
 
 
-
-
-    public MotorEx[] motors;
-
     public MecanumDriverControlled driverControlled;
     private Follower follower;
     private final Pose startPose = new Pose(0,0,0);
@@ -68,42 +67,61 @@ public class TeleOpRev extends NextFTCOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        motors = new MotorEx[]{frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor};
+
 
 
     }
 
     @Override
     public void onStartButtonPressed() {
-        driverControlled = new MecanumDriverControlled(motors, gamepadManager.getGamepad1());
-        driverControlled.invoke();
+        CommandManager.INSTANCE.scheduleCommand(new DriverControlled(gamepadManager.getGamepad1(), true));
+
 
         //------ RESET ENCODERS ------
         Lift.INSTANCE.resetZero().invoke();
         Extend.INSTANCE.resetZero().invoke();
-        Lift.INSTANCE.getDefaltCommand().invoke();
-        Extend.INSTANCE.getDefaltCommand().invoke();
+        Lift.INSTANCE.getDefaultCommand().invoke();
+        Extend.INSTANCE.getDefaultCommand().invoke();
         //------ Pose Maxima Braco ------
-        gamepadManager.getGamepad2().getDpadDown().setReleasedCommand(
-                () -> Lift.INSTANCE.vamoquerersubir()
+
+
+
+        gamepadManager.getGamepad2().getDpadUp().setReleasedCommand(
+                Lift.INSTANCE::vamoquerersubir
         );
         //------ Pose Minima Braco ------
         gamepadManager.getGamepad2().getDpadDown().setReleasedCommand(
-                () -> Lift.INSTANCE.vamoquererdescer()
+                Lift.INSTANCE::vamoquererdescer
         );
         //------ Pose Maxima Linear ------
         gamepadManager.getGamepad2().getDpadLeft().setReleasedCommand(
-                () -> Extend.INSTANCE.vamoquerersubirne()
+                Extend.INSTANCE::vamoquerersubirne
         );
         //------ Pose Minima Linear ------
         gamepadManager.getGamepad2().getDpadRight().setReleasedCommand(
-                () -> Extend.INSTANCE.vamoquererdescer()
+                Extend.INSTANCE::vamoquererdescer
         );
-        gamepadManager.getGamepad2().getRightBumper().setReleasedCommand(
-                () -> Outtake.INSTANCE.vamoquerersependurar()
+
+        gamepadManager.getGamepad2().getLeftBumper().setReleasedCommand(
+                Outtake.INSTANCE::vamoquerersependurar
         );
+
         gamepadManager.getGamepad2().getRightBumper().setReleasedCommand(
-                () -> Outtake.INSTANCE.vamoquererparar()
+                Outtake.INSTANCE::vamoquererparar
+        );
+
+        gamepadManager.getGamepad2().getA().setReleasedCommand(
+                Intake.INSTANCE::vamoquererabrir
+        );
+
+        gamepadManager.getGamepad2().getB().setReleasedCommand(
+                Intake.INSTANCE::vamoquererfechar
+        );
+        gamepadManager.getGamepad2().getY().setReleasedCommand(
+                Intake.INSTANCE::vamoquererangularfechar
+        );
+        gamepadManager.getGamepad2().getX().setReleasedCommand(
+                Intake.INSTANCE::vamoquererangular
         );
 
 
@@ -129,5 +147,6 @@ public class TeleOpRev extends NextFTCOpMode {
 
 
         }
+
     }
 

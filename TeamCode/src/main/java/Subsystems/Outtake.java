@@ -17,16 +17,6 @@ public class Outtake extends Subsystem {
     String outtake = "outtake";
     public PIDFController l_liftController = new PIDFController(0, 0, 0, new StaticFeedforward(0));
     private Outtake() {}
-
-
-
-
-
-
-
-
-
-
     double power = 1.0;
     int power1 = 0;
 

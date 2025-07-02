@@ -39,11 +39,9 @@ import Subsystems.Values.RConstants;
         return new InstantCommand(() -> { line_motor_stage2.resetEncoder(); });
     }
     public Command toTarget() {
-        return new ParallelGroup(
-                new RunToPosition(line_motor_stage2,
+        return new RunToPosition(line_motor_stage2,
                         target,
-                        l_liftController)
-        );
+                        l_liftController,this);
 
 
     }
@@ -51,18 +49,19 @@ import Subsystems.Values.RConstants;
     public Command vamoquererdescer() {
         return new RunToPosition(line_motor_stage2,
                 RConstants.minPosition_arm,
-                l_liftController);
+                l_liftController,this);
      }
 
     public Command vamoquerersubir() {
         return new RunToPosition(line_motor_stage2,
                 RConstants.maxPosition_arm,
-                l_liftController);
+                l_liftController,this
+        );
     }
 
 
 
-    public Command getDefaltCommand() {
+    public Command getDefaultCommand() {
         return new HoldPosition(line_motor_stage2, l_liftController);
     }
 
@@ -74,8 +73,10 @@ import Subsystems.Values.RConstants;
     public void initialize(){
         line_motor_stage2 = new MotorEx(braco);
         line_motor_stage2.resetEncoder();
-        line_motor_stage2.setDirection(DcMotorSimple.Direction.FORWARD);
         l_liftController.setSetPointTolerance(LiftPID.tollerancel);
+        telemetry.addData("Potência atual", line_motor_stage2.getPower());
+        telemetry.addData("Posição vertical", line_motor_stage2.getCurrentPosition());
+        telemetry.update();
     }
 
 }

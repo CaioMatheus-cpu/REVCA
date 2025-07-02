@@ -1,5 +1,7 @@
 package Subsystems;
 
+import static com.rowanmcalpin.nextftc.ftc.OpModeData.telemetry;
+
 import com.qualcomm.robotcore.hardware.Servo;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
@@ -22,7 +24,7 @@ public class Intake extends Subsystem {
 
     public Command vamoquererfechar () {
         return new ServoToPosition(Garra,
-                -1,
+                0,
                 this);
     }
 
@@ -44,6 +46,7 @@ public class Intake extends Subsystem {
         Angulo= OpModeData.INSTANCE.getHardwareMap().get(Servo.class, angulo);
         Garra.setDirection(Servo.Direction.FORWARD);
         Angulo.setDirection(Servo.Direction.FORWARD);
+
     }
 
 
