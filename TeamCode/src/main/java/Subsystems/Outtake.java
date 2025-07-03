@@ -15,8 +15,7 @@ public class Outtake extends Subsystem {
     public static final Outtake INSTANCE = new Outtake();
     public MotorEx levantar;
     String outtake = "outtake";
-    public PIDFController l_liftController = new PIDFController(0, 0, 0, new StaticFeedforward(0));
-    private Outtake() {}
+
     double power = 1.0;
     int power1 = 0;
 
@@ -27,7 +26,12 @@ public class Outtake extends Subsystem {
             return new SetPower(levantar, power, this);
     }
     public Command vamoquererparar() {
-        return new SetPower(levantar, power, this);
+        return new SetPower(levantar, power1, this);
+    }
+    @Override
+    public void initialize() {
+        levantar = new MotorEx(outtake);
+        levantar.resetEncoder();
     }
 }
 
