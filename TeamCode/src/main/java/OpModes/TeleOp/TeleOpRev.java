@@ -19,7 +19,6 @@ import com.rowanmcalpin.nextftc.pedro.DriverControlled;
 import Subsystems.Intake;
 import Subsystems.Extend;
 import Subsystems.Lift;
-import Subsystems.Outtake;
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
@@ -33,8 +32,7 @@ public class TeleOpRev extends NextFTCOpMode {
         super(
                 Lift.INSTANCE,
                 Extend.INSTANCE,
-                Intake.INSTANCE,
-                Outtake.INSTANCE);
+                Intake.INSTANCE);
     }
 
     public MotorEx frontLeftMotor, backRightMotor, frontRightMotor, backLeftMotor;
@@ -102,13 +100,7 @@ public class TeleOpRev extends NextFTCOpMode {
                 Extend.INSTANCE::vamoquererdescer
         );
 
-        gamepadManager.getGamepad2().getLeftBumper().setReleasedCommand(
-                Outtake.INSTANCE::vamoquerersependurar
-        );
 
-        gamepadManager.getGamepad2().getRightBumper().setReleasedCommand(
-                Outtake.INSTANCE::vamoquererparar
-        );
 
         gamepadManager.getGamepad2().getA().setReleasedCommand(
                 Intake.INSTANCE::vamoquererabrir
