@@ -32,18 +32,15 @@ import Subsystems.Values.RConstants;
 
     private Lift() {}
 
-    public MotorEx line_motor_stage2, line_motor_stage3;
+    public MotorEx line_motor_stage2;
     public PIDFController l_liftController = new PIDFController(LiftPID.p, LiftPID.i, LiftPID.d, new StaticFeedforward(LiftPID.f));
     public String braco = "motor2";
 
-    public String braco2 = "motor3";
+
 
     public Command resetZero() {
-        return new ParallelGroup(
-                new InstantCommand(() -> { line_motor_stage2.resetEncoder(); }),
-                new InstantCommand(() -> { line_motor_stage3.resetEncoder(); })
+        return new InstantCommand(() -> { line_motor_stage2.resetEncoder(); });
 
-        );
     }
     public Command toTarget() {
         return new RunToPosition(
@@ -55,36 +52,20 @@ import Subsystems.Values.RConstants;
     }
 
         public Command vamoquererdescer() {
-            return new ParallelGroup(
-                    new RunToPosition(
+            return new RunToPosition(
                             line_motor_stage2,
                             RConstants.minPosition_arm,
                             l_liftController,
-                            this),
-
-                    new RunToPosition(
-                            line_motor_stage3,
-                            RConstants.minPosition_arm,
-                            l_liftController,
-                            this)
-            );
-
+                            this);
         }
 
     public Command vamoquerersubir() {
-        return new ParallelGroup(
-                new RunToPosition(
+        return new RunToPosition(
                         line_motor_stage2,
                         RConstants.maxPosition_arm,
                         l_liftController,
-                        this),
-
-                new RunToPosition(
-                        line_motor_stage3,
-                        RConstants.maxPosition_arm,
-                        l_liftController,
-                        this)
-        );
+                        this
+                );
 
     }
 
@@ -97,13 +78,10 @@ import Subsystems.Values.RConstants;
     }
 
     public Command powerControl(double power) {
-        return new ParallelGroup(
-                new SetPower(
+        return new SetPower(
                         line_motor_stage2,
-                        power),
-                new SetPower(
-                        line_motor_stage3,
-                        power)
+                        power
+
         );
 
     }
@@ -111,13 +89,10 @@ import Subsystems.Values.RConstants;
     public void initialize(){
         line_motor_stage2 = new MotorEx(braco);
         line_motor_stage2.resetEncoder();
-        line_motor_stage3 = new MotorEx(braco2);
-        line_motor_stage3.resetEncoder();
+
         l_liftController.setSetPointTolerance(LiftPID.tollerancel);
         telemetry.addData("Potência atual", line_motor_stage2.getPower());
         telemetry.addData("Posição vertical", line_motor_stage2.getCurrentPosition());
-        telemetry.addData("Potência atual", line_motor_stage3.getPower());
-        telemetry.addData("Posição vertical", line_motor_stage3.getCurrentPosition());
         telemetry.update();
     }
 
