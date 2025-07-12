@@ -35,29 +35,17 @@ public class Extend extends Subsystem {
         return new InstantCommand(() -> { line_motor_stage1.resetEncoder(); });
     }
 
-    public Command toTarget() {
-        return new RunToPosition(line_motor_stage1,
-                        target,
-                        e_controller,this);
-    }
-    public Command vamoquerersubirne() {
+    public Command ToHigh() {
         return new RunToPosition(line_motor_stage1,
             RConstants.maxPosition,
                 e_controller,this);
 
     }
-    public Command vamoquererdescer() {
+    public Command ToLow() {
         return new RunToPosition(line_motor_stage1,
                     RConstants.minPosition,
                 e_controller,this);
 
-    }
-
-
-
-    public Command vamoquererfuncionar(double power) {
-        return new SetPower(line_motor_stage1,
-                power);
     }
 
     @Override

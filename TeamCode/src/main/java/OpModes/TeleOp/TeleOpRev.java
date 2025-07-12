@@ -82,52 +82,65 @@ public class TeleOpRev extends NextFTCOpMode {
 
 
         gamepadManager.getGamepad2().getDpadUp().setPressedCommand(
-                Lift.INSTANCE::vamoquerersubir
+                Lift.INSTANCE::ToHigh
         );
         //------ Pose Minima Braco ------
         gamepadManager.getGamepad2().getDpadDown().setPressedCommand(
-                Lift.INSTANCE::vamoquererdescer
+                Lift.INSTANCE::ToLow
         );
         //------ Pose Maxima Linear ------
         gamepadManager.getGamepad2().getDpadLeft().setPressedCommand(
-                Extend.INSTANCE::vamoquerersubirne
+                Extend.INSTANCE::ToHigh
         );
         //------ Pose Minima Linear ------
         gamepadManager.getGamepad2().getDpadRight().setPressedCommand(
-                Extend.INSTANCE::vamoquererdescer
+                Extend.INSTANCE::ToLow
         );
         gamepadManager.getGamepad2().getLeftBumper().setPressedCommand(
-                Outtake.INSTANCE::vamoquererfuncionar
+                Outtake.INSTANCE::Hang
         );
 
 
         gamepadManager.getGamepad2().getA().setPressedCommand(
-                Intake.INSTANCE::vamoquererabrir
+                Intake.INSTANCE::openclaw
         );
 
         gamepadManager.getGamepad2().getB().setPressedCommand(
-                Intake.INSTANCE::vamoquererfechar
+                Intake.INSTANCE::closeclaw
         );
         gamepadManager.getGamepad2().getY().setPressedCommand(
-                Intake.INSTANCE::vamoquererangularfechar
+                Intake.INSTANCE::openangle
         );
         gamepadManager.getGamepad2().getX().setPressedCommand(
-                Intake.INSTANCE::vamoquererangular
+                Intake.INSTANCE::closeangle
         );
 
+        if(gamepadManager.getGamepad2().getRightStick().getX()>0){
 
+        }
 
+        gamepadManager.getGamepad2().getRightStick().setDisplacedCommand(stick -> {
+            float x = stick.getFirst();
+            float y = stick.getSecond();
 
+            if (y < -0.5) {
+                return Lift.INSTANCE.ToHigh();
+            } else if (y > 0.5) {
+                return Lift.INSTANCE.ToLow();
+            }
+
+            return null;
+        });
 
         gamepadManager.getGamepad2().getRightTrigger().setPressedCommand(
                 value -> new SequentialGroup(
-                        Intake.INSTANCE.vamoquererabrir(),
+                        Intake.INSTANCE.openclaw(),
                         new Delay(0.2),
-                        Lift.INSTANCE.vamoquerersubir(),
+                        Lift.INSTANCE.ToHigh(),
                         new Delay(0.2),
-                        Extend.INSTANCE.vamoquerersubirne(),
+                        Extend.INSTANCE.ToHigh(),
                         new Delay(0.2),
-                        Intake.INSTANCE.vamoquererfechar()
+                        Intake.INSTANCE.closeclaw()
                 )
         );
         }

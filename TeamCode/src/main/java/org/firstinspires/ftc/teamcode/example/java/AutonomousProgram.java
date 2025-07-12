@@ -25,11 +25,11 @@ public class AutonomousProgram extends NextFTCOpMode {
                 Lift.INSTANCE.toHigh(),
                 new ParallelGroup(
                         Lift.INSTANCE.toMiddle(),
-                        Claw.INSTANCE.close()
+                        Claw.INSTANCE.closeclaw()
                 ),
                 new Delay(0.5),
                 new ParallelGroup(
-                        Claw.INSTANCE.open(),
+                        Claw.INSTANCE.openclaw(),
                         Lift.INSTANCE.toLow()
                 )
         );

@@ -6,7 +6,7 @@ import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.ftc.OpModeData;
 import com.rowanmcalpin.nextftc.ftc.hardware.ServoToPosition;
 
-public class Claw extends Subsystem {
+public class  Claw extends Subsystem {
     // BOILERPLATE
     public static final Claw INSTANCE = new Claw();
     private Claw() { }
@@ -16,13 +16,13 @@ public class Claw extends Subsystem {
     
     public String name = "claw_servo";
 
-    public Command open() {
+    public Command openclaw() {
         return new ServoToPosition(servo, // SERVO TO MOVE
                 0.9, // POSITION TO MOVE TO
                 this); // IMPLEMENTED SUBSYSTEM
     }
 
-    public Command close() {
+    public Command closeclaw() {
         return new ServoToPosition(servo, // SERVO TO MOVE
                 0.2, // POSITION TO MOVE TO
                 this); // IMPLEMENTED SUBSYSTEM

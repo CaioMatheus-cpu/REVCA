@@ -94,11 +94,10 @@ public class Autorev1 extends PedroOpMode {
         return new SequentialGroup(
                 new ParallelGroup(
                         new FollowPath(basket0),
-                        Lift.INSTANCE.vamoquerersubir(),
-                        Extend.INSTANCE.vamoquerersubirne(),
-                        Claw.INSTANCE.close(),
+                        Lift.INSTANCE.ToHigh(),
+                        Extend.INSTANCE.ToLow(),
                         new Delay(1.0),
-                        Extend.INSTANCE.vamoquererdescer()
+                        Extend.INSTANCE.ToHigh()
                 )
         );
     }
@@ -106,10 +105,8 @@ public class Autorev1 extends PedroOpMode {
         return new SequentialGroup(
                 new ParallelGroup(
                     new FollowPath(basket1),
-                        Lift.INSTANCE.vamoquererdescer(),
-                        Claw.INSTANCE.open()
-
-
+                        Lift.INSTANCE.ToHigh(),
+                        Claw.INSTANCE.openclaw()
                 )
         );
     }

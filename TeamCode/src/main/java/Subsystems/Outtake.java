@@ -20,14 +20,11 @@ public class Outtake extends Subsystem {
     }
     public MotorEx motor;
     public String motorName = "levantar";
-    public Command vamoquererfuncionar(){
+    public Command Hang(){
         return new SetPower(motor,
         1.0);
     }
-    public Command vamoquererparar(){
-        return new SetPower(motor,
-                0);
-    }
+
     public void initialize(){
         motor = new MotorEx(motorName);
         motor.resetEncoder();
