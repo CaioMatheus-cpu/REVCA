@@ -12,7 +12,6 @@ public class    LConstants {
         ThreeWheelConstants.rightY = -6;
         ThreeWheelConstants.strafeX = -2.16535;
         ThreeWheelConstants .leftEncoder_HardwareMapName = "FLmotor";
-
         ThreeWheelConstants.rightEncoder_HardwareMapName = "BRmotor";
         ThreeWheelConstants.strafeEncoder_HardwareMapName = "FRmotor";
         ThreeWheelConstants.leftEncoderDirection = Encoder.REVERSE;

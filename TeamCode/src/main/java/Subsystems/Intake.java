@@ -1,6 +1,6 @@
 package Subsystems;
 
-import static com.rowanmcalpin.nextftc.ftc.OpModeData.telemetry;
+
 
 import com.qualcomm.robotcore.hardware.Servo;
 import com.rowanmcalpin.nextftc.core.Subsystem;

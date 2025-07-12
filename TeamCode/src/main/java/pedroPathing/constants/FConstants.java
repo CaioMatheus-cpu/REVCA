@@ -6,7 +6,7 @@ import com.pedropathing.util.CustomFilteredPIDFCoefficients;
 import com.pedropathing.util.CustomPIDFCoefficients;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-public class FConstants {
+public class  FConstants {
     static {
         FollowerConstants.localizers = Localizers.THREE_WHEEL;
 
