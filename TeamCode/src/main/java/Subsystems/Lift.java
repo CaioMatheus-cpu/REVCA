@@ -69,6 +69,28 @@ import Subsystems.Values.RConstants;
                 );
 
     }
+        public Command upAltasAventuras() {
+            return new RunToPosition(
+                    line_motor_stage2,
+                    RConstants.maxPosition_arm,
+                    l_liftController,
+                    this
+
+
+            );
+
+        }
+        public Command upBaixasAventuras() {
+            return new RunToPosition(
+                    line_motor_stage2,
+                    RConstants.minPosition_arm,
+                    l_liftController,
+                    this
+
+
+            );
+
+        }
 
 
 

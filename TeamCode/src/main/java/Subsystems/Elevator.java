@@ -11,12 +11,12 @@ import com.rowanmcalpin.nextftc.ftc.hardware.MotorToPosition;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.SetPower;
 
-import Subsystems.Values.LiftPID;
+;
 
-public class Outtake extends Subsystem {
-    public static final Subsystems.Outtake INSTANCE = new Subsystems.Outtake();
+public class Elevator extends Subsystem {
+    public static final Subsystems.Elevator INSTANCE = new Subsystems.Elevator();
 
-    private Outtake() {
+    private Elevator() {
     }
     public MotorEx motor;
     public String motorName = "levantar";
@@ -29,5 +29,6 @@ public class Outtake extends Subsystem {
         motor = new MotorEx(motorName);
         motor.resetEncoder();
     }
+
 }
 

@@ -12,10 +12,10 @@ import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
 import com.rowanmcalpin.nextftc.pedro.DriverControlled;
 
+import Subsystems.Elevator;
 import Subsystems.Intake;
 import Subsystems.Extend;
 import Subsystems.Lift;
-import Subsystems.Outtake;
 import pedroPathing.constants.FConstants;
 import pedroPathing.constants.LConstants;
 
@@ -30,7 +30,7 @@ public class TeleOpRev extends NextFTCOpMode {
                 Lift.INSTANCE,
                 Extend.INSTANCE,
                 Intake.INSTANCE,
-                Outtake.INSTANCE);
+                Elevator.INSTANCE);
     }
 
     public MotorEx frontLeftMotor, backRightMotor, frontRightMotor, backLeftMotor;
@@ -77,17 +77,8 @@ public class TeleOpRev extends NextFTCOpMode {
 
         Lift.INSTANCE.getDefaultCommand().invoke();
         Extend.INSTANCE.getDefaultCommand().invoke();
-        //------ Pose Maxima Braco ------
 
 
-
-        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(
-                Lift.INSTANCE::ToHigh
-        );
-        //------ Pose Minima Braco ------
-        gamepadManager.getGamepad2().getDpadDown().setPressedCommand(
-                Lift.INSTANCE::ToLow
-        );
         //------ Pose Maxima Linear ------
         gamepadManager.getGamepad2().getDpadLeft().setPressedCommand(
                 Extend.INSTANCE::ToHigh
@@ -96,30 +87,39 @@ public class TeleOpRev extends NextFTCOpMode {
         gamepadManager.getGamepad2().getDpadRight().setPressedCommand(
                 Extend.INSTANCE::ToLow
         );
+        //------ Pose Maxima Braco ------
+        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(
+                Lift.INSTANCE::upAltasAventuras
+        );
+        //------ Pose Minima Braco ------
+        gamepadManager.getGamepad2().getDpadDown().setPressedCommand(
+                Lift.INSTANCE::upBaixasAventuras
+        );
+        //------ Pendurar-se ------
         gamepadManager.getGamepad2().getLeftBumper().setPressedCommand(
-                Outtake.INSTANCE::Hang
+                Elevator.INSTANCE::Hang
         );
 
-
+        //------ Abre a garra ------
         gamepadManager.getGamepad2().getA().setPressedCommand(
                 Intake.INSTANCE::openclaw
         );
-
+        //------ Fecha a garra ------
         gamepadManager.getGamepad2().getB().setPressedCommand(
                 Intake.INSTANCE::closeclaw
         );
+        //------ Abre o angulo da Garra ------
         gamepadManager.getGamepad2().getY().setPressedCommand(
                 Intake.INSTANCE::openangle
         );
+        //------ Fecha o angulo da Garra ------
         gamepadManager.getGamepad2().getX().setPressedCommand(
                 Intake.INSTANCE::closeangle
         );
+        //------ Controle Manual do Braço ------
 
-        if(gamepadManager.getGamepad2().getRightStick().getX()>0){
 
-        }
-
-        gamepadManager.getGamepad2().getRightStick().setDisplacedCommand(stick -> {
+        gamepadManager.getGamepad2().getRightStick().setStateChangeCommand(stick -> {
             float x = stick.getFirst();
             float y = stick.getSecond();
 
@@ -131,18 +131,6 @@ public class TeleOpRev extends NextFTCOpMode {
 
             return null;
         });
-
-        gamepadManager.getGamepad2().getRightTrigger().setPressedCommand(
-                value -> new SequentialGroup(
-                        Intake.INSTANCE.openclaw(),
-                        new Delay(0.2),
-                        Lift.INSTANCE.ToHigh(),
-                        new Delay(0.2),
-                        Extend.INSTANCE.ToHigh(),
-                        new Delay(0.2),
-                        Intake.INSTANCE.closeclaw()
-                )
-        );
         }
 
     }
