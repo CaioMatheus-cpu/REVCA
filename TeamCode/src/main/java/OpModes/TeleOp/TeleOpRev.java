@@ -124,8 +124,8 @@ public class TeleOpRev extends NextFTCOpMode {
     }
         @Override
         public void onUpdate(){
-        telemetry.addData("Posição vertical", Lift.INSTANCE.line_motor_stage2.getCurrentPosition());
-        telemetry.addData("Posição vertical", Extend.INSTANCE.line_motor_stage1.getCurrentPosition());
+        telemetry.addData("Posição vertical", Lift.INSTANCE.line_motor_stage1git .getCurrentPosition());
+        telemetry.addData("Posição vertical", Extend.INSTANCE.line_motor_stage2.getCurrentPosition());
         telemetry.update();
     }
 }

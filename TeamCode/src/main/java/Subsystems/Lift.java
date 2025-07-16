@@ -32,7 +32,7 @@ import Subsystems.Values.RConstants;
 
     private Lift() {}
 
-    public MotorEx line_motor_stage2;
+    public MotorEx line_motor_stage1;
     public PIDFController l_liftController = new PIDFController(LiftPID.p, LiftPID.i, LiftPID.d, new StaticFeedforward(LiftPID.f));
         public PIDFController colletPID = new PIDFController(0.0, 0.0000, 0.0000);
     public String angulo= "Angulo";
@@ -40,30 +40,30 @@ import Subsystems.Values.RConstants;
 
 
     public Command resetZero() {
-        return new InstantCommand(() -> { line_motor_stage2.resetEncoder(); });
+        return new InstantCommand(() -> { line_motor_stage1.resetEncoder(); });
 
     }
     public Command toTarget() {
         return new RunToPosition(
-                        line_motor_stage2,
+                        line_motor_stage1,
                         target,
                         l_liftController,this);
 
     }
 
         public Command ToLow() {
-            double pos = line_motor_stage2.getCurrentPosition();
+            double pos = line_motor_stage1.getCurrentPosition();
             return new RunToPosition(
-                            line_motor_stage2,
+                            line_motor_stage1,
                             Math.min(pos+50, RConstants.minPosition_arm),
                             l_liftController,
                             this);
         }
 
     public Command ToHigh() {
-        double pos = line_motor_stage2.getCurrentPosition();
+        double pos = line_motor_stage1.getCurrentPosition();
         return new RunToPosition(
-                        line_motor_stage2,
+                        line_motor_stage1,
                         Math.max(pos-50, RConstants.maxPosition_arm),
                         l_liftController,
                         this
@@ -72,7 +72,7 @@ import Subsystems.Values.RConstants;
     }
         public Command upAltasAventuras() {
             return new RunToPosition(
-                    line_motor_stage2,
+                    line_motor_stage1,
                     RConstants.maxPosition_arm,
                     l_liftController,
                     this
@@ -83,7 +83,7 @@ import Subsystems.Values.RConstants;
         }
         public Command upBaixasAventuras() {
             return new RunToPosition(
-                    line_motor_stage2,
+                    line_motor_stage1,
                     RConstants.minPosition_arm,
                     l_liftController,
                     this
@@ -94,7 +94,7 @@ import Subsystems.Values.RConstants;
         }
         public Command controlepower() {
             return new SetPower(
-                    line_motor_stage2,
+                    line_motor_stage1,
                     0.4
 
 
@@ -106,7 +106,7 @@ import Subsystems.Values.RConstants;
 
     public Command getDefaultCommand() {
         return new HoldPosition(
-                line_motor_stage2,
+                line_motor_stage1,
                 colletPID,
                 this);
     }
@@ -114,8 +114,8 @@ import Subsystems.Values.RConstants;
 
 
     public void initialize(){
-        line_motor_stage2 = new MotorEx(angulo);
-        line_motor_stage2.setDirection(DcMotorSimple.Direction.REVERSE);
+        line_motor_stage1 = new MotorEx(angulo);
+        line_motor_stage1.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
 

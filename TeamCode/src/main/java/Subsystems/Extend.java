@@ -23,7 +23,7 @@ public class Extend extends Subsystem {
     private Extend(){}
 
 
-    public MotorEx line_motor_stage1;
+    public MotorEx line_motor_stage2;
     public PIDFController e_controller = new PIDFController(ExtendPID.p, ExtendPID.i, ExtendPID.d, new StaticFeedforward(ExtendPID.f));
     public PIDFController colletPID = new PIDFController(0.0, 0.000, 0.000);
     public String linear = "Linear";
@@ -32,28 +32,28 @@ public class Extend extends Subsystem {
 
 
     public Command resetZero() {
-        return new InstantCommand(() -> { line_motor_stage1.resetEncoder(); });
+        return new InstantCommand(() -> { line_motor_stage2.resetEncoder(); });
     }
 
     public Command ToHigh() {
-        return new RunToPosition(line_motor_stage1,
+        return new RunToPosition(line_motor_stage2,
             RConstants.maxPosition,
                 e_controller,this);
 
     }
     public Command ToLow() {
-        return new RunToPosition(line_motor_stage1,
+        return new RunToPosition(line_motor_stage2,
                     RConstants.minPosition,
                     e_controller,this);
 
     }
     public Command getDefaultCommand(){
-        return new HoldPosition(line_motor_stage1, colletPID, this);
+        return new HoldPosition(line_motor_stage2, colletPID, this);
     }
     @Override
     public void initialize(){
-        line_motor_stage1 = new MotorEx(linear);
-        line_motor_stage1.setDirection(DcMotorSimple.Direction.FORWARD);
+        line_motor_stage2 = new MotorEx(linear);
+        line_motor_stage2.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
 }
