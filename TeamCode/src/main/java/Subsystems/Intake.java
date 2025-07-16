@@ -14,7 +14,7 @@ public class Intake extends Subsystem {
 
     public Servo Garra, Angulo;
 
-    public String garra = "garra";
+    public String garra = "Garra";
     public String angulo = "angulo";
     public Command openclaw(){
         return new ServoToPosition(Garra,

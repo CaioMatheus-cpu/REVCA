@@ -1,18 +1,17 @@
 package OpModes.TeleOp;
 
+import static com.rowanmcalpin.nextftc.ftc.OpModeData.telemetry;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.rowanmcalpin.nextftc.core.command.CommandManager;
-import com.rowanmcalpin.nextftc.core.command.groups.SequentialGroup;
-import com.rowanmcalpin.nextftc.core.command.utility.delays.Delay;
+import com.rowanmcalpin.nextftc.core.command.Command;
 import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
+import com.rowanmcalpin.nextftc.ftc.driving.MecanumDriverControlled;
 import com.rowanmcalpin.nextftc.ftc.hardware.controllables.MotorEx;
-import com.rowanmcalpin.nextftc.pedro.DriverControlled;
 
-import Subsystems.Elevator;
 import Subsystems.Intake;
 import Subsystems.Extend;
 import Subsystems.Lift;
@@ -21,7 +20,6 @@ import pedroPathing.constants.LConstants;
 
 
 @Config
-
 @TeleOp(name = "TeleOpRev")
 public class TeleOpRev extends NextFTCOpMode {
 
@@ -29,8 +27,7 @@ public class TeleOpRev extends NextFTCOpMode {
         super(
                 Lift.INSTANCE,
                 Extend.INSTANCE,
-                Intake.INSTANCE,
-                Elevator.INSTANCE);
+                Intake.INSTANCE);
     }
 
     public MotorEx frontLeftMotor, backRightMotor, frontRightMotor, backLeftMotor;
@@ -39,9 +36,11 @@ public class TeleOpRev extends NextFTCOpMode {
     public String BLmotor = "BLmotor";
     public String BRmotor = "BRmotor";
 
+    public MotorEx[] motors;
 
-    private Follower follower;
-    private final Pose startPose = new Pose(0,0,0);
+
+    public Command driverControlled;
+
 
     @Override
     public void onInit() {
@@ -51,8 +50,6 @@ public class TeleOpRev extends NextFTCOpMode {
         backRightMotor = new MotorEx(BRmotor);
         frontRightMotor = new MotorEx(FRmotor);
 
-        follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
-        follower.setStartingPose(startPose);
 
 
 
@@ -62,21 +59,23 @@ public class TeleOpRev extends NextFTCOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        motors = new MotorEx[] { frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor };
 
-        Lift.INSTANCE.resetZero().invoke();
-        Extend.INSTANCE.resetZero().invoke();
+
+
 
     }
 
     @Override
     public void onStartButtonPressed() {
-        CommandManager.INSTANCE.scheduleCommand(new DriverControlled(gamepadManager.getGamepad1(), true));
+        driverControlled = new MecanumDriverControlled(motors, gamepadManager.getGamepad1());
+        driverControlled.invoke();
 
 
         //------ RESET ENCODERS ------
 
-        Lift.INSTANCE.getDefaultCommand().invoke();
-        Extend.INSTANCE.getDefaultCommand().invoke();
+
+
 
 
         //------ Pose Maxima Linear ------
@@ -95,10 +94,7 @@ public class TeleOpRev extends NextFTCOpMode {
         gamepadManager.getGamepad2().getDpadDown().setPressedCommand(
                 Lift.INSTANCE::upBaixasAventuras
         );
-        //------ Pendurar-se ------
-        gamepadManager.getGamepad2().getLeftBumper().setPressedCommand(
-                Elevator.INSTANCE::Hang
-        );
+
 
         //------ Abre a garra ------
         gamepadManager.getGamepad2().getA().setPressedCommand(
@@ -116,22 +112,21 @@ public class TeleOpRev extends NextFTCOpMode {
         gamepadManager.getGamepad2().getX().setPressedCommand(
                 Intake.INSTANCE::closeangle
         );
+//------ Fecha o angulo da Garra ------
+        gamepadManager.getGamepad2().getDpadLeft().setPressedCommand(
+                Lift.INSTANCE::controlepower
+        );
         //------ Controle Manual do Braço ------
 
 
-        gamepadManager.getGamepad2().getRightStick().setStateChangeCommand(stick -> {
-            float x = stick.getFirst();
-            float y = stick.getSecond();
 
-            if (y < -0.5) {
-                return Lift.INSTANCE.ToHigh();
-            } else if (y > 0.5) {
-                return Lift.INSTANCE.ToLow();
-            }
-
-            return null;
-        });
-        }
 
     }
+        @Override
+        public void onUpdate(){
+        telemetry.addData("Posição vertical", Lift.INSTANCE.line_motor_stage2.getCurrentPosition());
+        telemetry.addData("Posição vertical", Extend.INSTANCE.line_motor_stage1.getCurrentPosition());
+        telemetry.update();
+    }
+}
 

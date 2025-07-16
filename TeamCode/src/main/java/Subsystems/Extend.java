@@ -2,6 +2,7 @@ package Subsystems;
 
 import static Subsystems.Values.LiftPID.target;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.rowanmcalpin.nextftc.core.Subsystem;
 import com.rowanmcalpin.nextftc.core.command.Command;
 
@@ -24,11 +25,10 @@ public class Extend extends Subsystem {
 
     public MotorEx line_motor_stage1;
     public PIDFController e_controller = new PIDFController(ExtendPID.p, ExtendPID.i, ExtendPID.d, new StaticFeedforward(ExtendPID.f));
-    public String linear = "motor";
+    public PIDFController colletPID = new PIDFController(0.0, 0.000, 0.000);
+    public String linear = "Linear";
 
-    public Command getDefaultCommand(){
-        return new HoldPosition(line_motor_stage1, e_controller);
-    }
+
 
 
     public Command resetZero() {
@@ -44,15 +44,16 @@ public class Extend extends Subsystem {
     public Command ToLow() {
         return new RunToPosition(line_motor_stage1,
                     RConstants.minPosition,
-                e_controller,this);
+                    e_controller,this);
 
     }
-
+    public Command getDefaultCommand(){
+        return new HoldPosition(line_motor_stage1, colletPID, this);
+    }
     @Override
     public void initialize(){
         line_motor_stage1 = new MotorEx(linear);
-        line_motor_stage1.resetEncoder();
-        e_controller.setSetPointTolerance(ExtendPID.tollerance);
+        line_motor_stage1.setDirection(DcMotorSimple.Direction.FORWARD);
     }
 
 }

@@ -34,7 +34,8 @@ import Subsystems.Values.RConstants;
 
     public MotorEx line_motor_stage2;
     public PIDFController l_liftController = new PIDFController(LiftPID.p, LiftPID.i, LiftPID.d, new StaticFeedforward(LiftPID.f));
-    public String braco = "motor2";
+        public PIDFController colletPID = new PIDFController(0.0, 0.0000, 0.0000);
+    public String angulo= "Angulo";
 
 
 
@@ -91,32 +92,33 @@ import Subsystems.Values.RConstants;
             );
 
         }
+        public Command controlepower() {
+            return new SetPower(
+                    line_motor_stage2,
+                    0.4
+
+
+            );
+
+        }
 
 
 
     public Command getDefaultCommand() {
         return new HoldPosition(
                 line_motor_stage2,
-                l_liftController);
+                colletPID,
+                this);
     }
 
-    public Command powerControl(double power) {
-        return new SetPower(
-                        line_motor_stage2,
-                        power
 
-        );
-
-    }
 
     public void initialize(){
-        line_motor_stage2 = new MotorEx(braco);
-        line_motor_stage2.resetEncoder();
+        line_motor_stage2 = new MotorEx(angulo);
+        line_motor_stage2.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        l_liftController.setSetPointTolerance(LiftPID.tollerancel);
-        telemetry.addData("Potência atual", line_motor_stage2.getPower());
-        telemetry.addData("Posição vertical", line_motor_stage2.getCurrentPosition());
-        telemetry.update();
+
+
     }
 
 }
